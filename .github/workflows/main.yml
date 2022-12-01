@@ -1,0 +1,48 @@
+name: Workflow for semantic-release
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Install dependencies and build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache for node_modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: yarn install
+      - name: Build Project
+        if: github.event_name == 'push'
+        run: yarn build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: dist
+
+  semantic-release:
+    runs-on: ubuntu-latest
+    name: Run Semantic Release
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: dist 
+      - name: Create a Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
