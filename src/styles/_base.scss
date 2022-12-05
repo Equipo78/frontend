@@ -1,0 +1,23 @@
+@use 'variables';
+@use 'mixins';
+
+html {
+  background-color: variables.$bg-primary;
+  color: variables.$color-primary;
+  font-family: variables.$font-roboto;
+  font-weight: variables.$font-weight-primary;
+  height: 100%;
+  // scroll-behavior: smooth;
+}
+
+html,
+body {
+  min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}

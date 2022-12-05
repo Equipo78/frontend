@@ -1,0 +1,66 @@
+@use 'variables';
+@import url('https://fonts.googleapis.com/css2?family=Bona+Nova:wght@400;700&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+h1,
+h2,
+h3,
+h5 .header-a {
+  font-family: variables.$font-bona-nova;
+  font-weight: variables.$font-weight-primary;
+}
+
+h4,
+h5 .header-b,
+p,
+input,
+.placeholder {
+  font-family: variables.$font-roboto;
+  font-weight: variables.$font-weight-primary;
+}
+
+h1 {
+  font-size: 6rem;
+}
+
+h2 {
+  font-size: 3.75rem;
+}
+
+h3 {
+  font-size: 3rem;
+}
+
+h4 {
+  font-size: 2.25rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+h6 {
+  font-size: 1.25rem;
+}
+
+p,
+.subtitle-a {
+  font-size: 1rem;
+}
+
+input,
+.placeholder,
+.subtitle-b,
+button {
+  font-size: 0.875rem;
+}
+
+.placeholder {
+  color: variables.$color-placeholder;
+}
+
+a {
+  text-decoration-style: none;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
