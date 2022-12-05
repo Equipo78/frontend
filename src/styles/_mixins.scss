@@ -1,0 +1,72 @@
+@use 'variables';
+
+@mixin box-shadow-multi-browsers($color) {
+  box-shadow: $color;
+  -moz-box-shadow: $color;
+  -webkit-box-shadow: $color;
+}
+
+@mixin input-textarea {
+  font-family: inherit;
+  color: inherit;
+  border: 1.5px solid rgba(203, 203, 203, 1);
+  border-radius: 8px;
+  width: 330px;
+  height: 48px;
+  padding: 1.7rem;
+}
+
+@mixin flex-dir-ai-jc-gap($dir: row, $ai: initial, $jc: initial, $gap: 0) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: $ai;
+  justify-content: $jc;
+  gap: $gap;
+}
+
+@mixin width-height($w-property, $h-property, $w-size: 0, $h-size: 0) {
+  #{$w-property}-width: $w-size;
+  #{$h-property}-height: $h-size;
+}
+
+@mixin primary-button {
+  max-width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background-color: variables.$bg-secondary;
+  color: variables.$color-secondary;
+}
+
+@mixin secondary-button {
+  max-width: 50%;
+  height: 50px;
+  border-radius: 8px;
+  background-color: variables.$bg-primary;
+  color: variables.$color-tertiary;
+}
+
+@mixin circle-bg($bg-color, $color, $border: none) {
+  width: 40px;
+  height: 40px;
+  border: $border;
+  background-color: $bg-color;
+  color: $color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card($height, $gap: 1rem, $padding: 1rem, $margin: 1rem) {
+  width: 100%;
+  height: $height;
+  border: 1px solid variables.$bg-tertiary;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1), 0px 1px 12px rgba(0, 0, 0, 0.04);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: $gap;
+  padding: $padding;
+  margin: $margin;
+}
