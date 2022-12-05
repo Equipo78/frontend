@@ -1,0 +1,9 @@
+.container {
+  display: grid; 
+  grid-template-columns: 0.5fr 1.5fr; 
+  grid-template-rows: 0.2fr 1.8fr; 
+  grid-template-areas: 
+    "Header Header"
+    "Navbar Content"; 
+  min-height: 100vh;
+}
