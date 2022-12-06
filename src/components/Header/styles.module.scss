@@ -1,3 +1,36 @@
-.container{
+@import "../../styles/variables";
+@import "../../styles//mixins";
+
+.container {
   grid-area: Header;
+  background-color: $bg-secondary;
+  @include flex-dir-ai-jc-gap(row, center, space-between);
+  padding: 0 2rem;
+  min-height: 60px;
+.boxLogo{
+  position: relative;
+  width: 4rem;
+  height: 100%;
+  .logo {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+  .userPanel {
+    @include flex-dir-ai-jc-gap(row, center, center, 1rem);
+
+    .user {
+      @include flex-dir-ai-jc-gap(row, center, center, 0.5rem);
+      p {
+        color: $color-secondary;
+        font-weight: $font-weight-primary;
+      }
+    }
+  }
 }
