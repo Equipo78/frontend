@@ -1,7 +1,7 @@
-import { Navigation } from './routes/Navigation';
+import { AppRouter } from './routes/AppRouter';
 
 const App = () => {
-  return <Navigation />;
+  return <AppRouter />;
 };
 
 export default App;
