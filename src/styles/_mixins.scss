@@ -1,19 +1,20 @@
 @use 'variables';
 
-@mixin box-shadow-multi-browsers($color) {
+@mixin box-shadow($color) {
   box-shadow: $color;
   -moz-box-shadow: $color;
   -webkit-box-shadow: $color;
 }
 
-@mixin input-textarea {
+@mixin input {
   font-family: inherit;
   color: inherit;
-  border: 1.5px solid rgba(203, 203, 203, 1);
+  border: 2px solid rgba(203, 203, 203, 1);
   border-radius: 8px;
-  width: 330px;
+  width: 100%;
+  max-width: 330px;
   height: 48px;
-  padding: 1.7rem;
+  padding: 1rem;
 }
 
 @mixin flex-dir-ai-jc-gap($dir: row, $ai: initial, $jc: initial, $gap: 0) {
@@ -30,7 +31,8 @@
 }
 
 @mixin primary-button {
-  max-width: 100%;
+  width: 100%;
+  max-width: 330px;
   height: 50px;
   border-radius: 8px;
   background-color: variables.$bg-secondary;
@@ -38,7 +40,8 @@
 }
 
 @mixin secondary-button {
-  max-width: 50%;
+  width: 100%;
+  max-width: 330px;
   height: 50px;
   border-radius: 8px;
   background-color: variables.$bg-primary;
@@ -56,8 +59,8 @@
   justify-content: center;
 }
 
-@mixin card($height, $gap: 1rem, $padding: 1rem, $margin: 1rem) {
-  width: 100%;
+@mixin card($height, $gap: 2rem, $padding: 2rem, $margin: 2rem) {
+  max-width: 100%;
   height: $height;
   border: 1px solid variables.$bg-tertiary;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1), 0px 1px 12px rgba(0, 0, 0, 0.04);

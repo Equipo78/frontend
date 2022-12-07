@@ -1,0 +1,94 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.container {
+  @include card(auto, 3rem, 3rem, 2rem);
+  background-color: rgba(230, 239, 239, 1);
+
+  form {
+    @include flex-dir-ai-jc-gap(column, center, flex-start, 2rem);
+
+    .inputGroup {
+      @include flex-dir-ai-jc-gap(column, flex-start, flex-start, 0);
+      position: relative;
+      display: inline-block;
+      width: 100%;
+
+      label {
+        pointer-events: none;
+        position: absolute;
+        top: 15px;
+        left: 35px;
+        transition: all 0.2s ease;
+        padding: 0 0.5rem;
+        // transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        opacity: 0.5;
+      }
+
+      input {
+        @include input();
+        background: $bg-primary;
+        position: relative;
+        padding: 0 2.5rem;
+
+        &:focus {
+          border-color: $input-focus;
+        }
+
+        &:focus ~ label,
+        &:valid ~ label {
+          top: 7px;
+          opacity: 1;
+          color: $color-primary;
+          background: rgb(255, 255, 255);
+          background: -moz-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 1) 30%,
+            rgba(230, 239, 239, 1) 70%
+          );
+          background: -webkit-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 1) 30%,
+            rgba(230, 239, 239, 1) 70%
+          );
+          background: linear-gradient(0deg, rgba(255, 255, 255, 1) 30%, rgba(230, 239, 239, 1) 70%);
+          text-align: center;
+          transform: translateY(-100%);
+        }
+      }
+
+      .svgInput {
+        position: absolute;
+        width: 17px;
+        height: 17px;
+        top: 15px;
+        left: 15px;
+      }
+
+      .svgPassword {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+      }
+    }
+
+    .btnGroup {
+      width: 100%;
+
+      button {
+        @include primary-button();
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: $bg-misc;
+      }
+    }
+
+    .otherGroup {
+      @include flex-dir-ai-jc-gap(row, center, space-between, 3rem);
+      width: 100%;
+    }
+  }
+}
