@@ -1,3 +1,25 @@
-.container{
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.container {
   grid-area: Navbar;
+  background-color: $bg-nav;
+  @include flex-dir-ai-jc-gap(column, center, space-between);
+  width: 19rem;
+  padding: 5rem 2rem 2rem 2rem;
+
+  ul,
+  section {
+    .navItem {
+      @include flex-dir-ai-jc-gap(row, center, start);
+      padding: 1rem;
+      img {
+        cursor: pointer;
+      }
+      a,
+      p {
+        margin-left: 1rem;
+      }
+    }
+  }
 }
