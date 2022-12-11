@@ -11,6 +11,8 @@ import Welcome from '../assets/drawings/Welcome.svg';
 
 import styles from './Login.module.scss';
 
+// switch content to display:flex row?
+
 export const Login = () => {
   return (
     <div className={styles.container}>

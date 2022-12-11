@@ -54,14 +54,14 @@ const guestValue = {
 const LoginCard = (): JSX.Element => {
   const [isShowing, setIsShowing] = useState(true);
   const [inputValue, setInputValue] = useState<LoginType>(initialValue);
-  // const [error, setError]: [string, (error: string) => void] = useState('');
+  const [error, setError]: [string, (error: string) => void] = useState('');
 
-  // const result = SchemaLogin.safeParse(inputValue);
-  // const errors = !result.success ? result.error.flatten().fieldErrors : {};
+  const result = SchemaLogin.safeParse(inputValue);
+  const errors = !result.success ? result.error.flatten().fieldErrors : {};
 
-  // console.log(result);
-  // console.log(errors);
-  // console.log(errors.username ? errors.username[0] : null);
+  console.log(result);
+  console.log(errors);
+  console.log(errors.username ? errors.username[0] : null);
 
   const toggleShow = () => {
     setIsShowing((prev) => !prev);
@@ -96,12 +96,12 @@ const LoginCard = (): JSX.Element => {
     console.log('Submit');
   };
 
-  // const handleGuestSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-  //   event.preventDefault();
-  //   setInputValue(guestValue);
-  //   handleClickSubmit(event);
-  //   console.log(inputValue);
-  // };
+  const handleGuestSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    setInputValue(guestValue);
+    handleClickSubmit(event);
+    console.log(inputValue);
+  };
 
   return (
     <div className={styles.container}>
@@ -113,7 +113,7 @@ const LoginCard = (): JSX.Element => {
           <input id="username" name="username" type="text" onChange={handleInputValue} />
           <img alt="username" className={styles.svgInput} src={username} />
           <label htmlFor="username">Usuario</label>
-          {/* <Errors errors={errors?.username} /> */}
+          <Errors errors={errors?.username} />
         </div>
         <div className={styles.inputGroup}>
           <input
@@ -129,15 +129,15 @@ const LoginCard = (): JSX.Element => {
           ) : (
             <img alt="hide" className={styles.svgPassword} src={eyeHide} onClick={toggleShow} />
           )}
-          {/* <Errors errors={errors?.password} /> */}
+          <Errors errors={errors?.password} />
         </div>
         <div className={styles.btnGroup}>
           <button className={styles.primaryBtn} type="submit">
             INICIAR SESIÓN
           </button>
-          {/* <button className={styles.secondaryBtn} onClick={() => handleGuestSubmit}>
+          <button className={styles.secondaryBtn} onClick={() => handleGuestSubmit}>
             Guest
-          </button> */}
+          </button>
         </div>
         <div className={styles.otherGroup}>
           <Link className="subtitle-b" to={'/forgot-password'}>
