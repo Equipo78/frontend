@@ -5,13 +5,18 @@
   @include card(auto, 3rem, 3rem, 2rem);
   background-color: rgba(230, 239, 239, 1);
 
+  .title {
+    text-align: center;
+  }
+
   form {
     @include flex-dir-ai-jc-gap(column, center, flex-start, 2rem);
+    width: 100%;
 
     .inputGroup {
-      @include flex-dir-ai-jc-gap(column, flex-start, flex-start, 0);
+      @include flex-dir-ai-jc-gap(column, center, flex-start, 0);
       position: relative;
-      display: inline-block;
+      // display: inline-block;
       width: 100%;
 
       label {
@@ -68,17 +73,25 @@
       .svgPassword {
         position: absolute;
         top: 15px;
-        right: 15px;
+        right: 45px;
         cursor: pointer;
       }
     }
 
     .btnGroup {
       width: 100%;
+      @include flex-dir-ai-jc-gap(column, center, center, 1rem);
 
       button {
-        @include primary-button();
         cursor: pointer;
+
+        &.primaryBtn {
+          @include primary-button();
+        }
+
+        &.secondaryBtn {
+          @include secondary-button();
+        }
       }
 
       button:hover {
