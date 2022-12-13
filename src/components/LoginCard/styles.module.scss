@@ -5,13 +5,18 @@
   @include card(auto, 3rem, 3rem, 2rem);
   background-color: rgba(230, 239, 239, 1);
 
+  .title {
+    text-align: center;
+  }
+
   form {
     @include flex-dir-ai-jc-gap(column, center, flex-start, 2rem);
+    width: 100%;
 
     .inputGroup {
-      @include flex-dir-ai-jc-gap(column, flex-start, flex-start, 0);
+      @include flex-dir-ai-jc-gap(column, center, flex-start, 0);
       position: relative;
-      display: inline-block;
+      // display: inline-block;
       width: 100%;
 
       label {
@@ -33,27 +38,31 @@
 
         &:focus {
           border-color: $input-focus;
-        }
 
-        &:focus ~ label,
-        &:valid ~ label {
-          top: 7px;
-          opacity: 1;
-          color: $color-primary;
-          background: rgb(255, 255, 255);
-          background: -moz-linear-gradient(
-            0deg,
-            rgba(255, 255, 255, 1) 30%,
-            rgba(230, 239, 239, 1) 70%
-          );
-          background: -webkit-linear-gradient(
-            0deg,
-            rgba(255, 255, 255, 1) 30%,
-            rgba(230, 239, 239, 1) 70%
-          );
-          background: linear-gradient(0deg, rgba(255, 255, 255, 1) 30%, rgba(230, 239, 239, 1) 70%);
-          text-align: center;
-          transform: translateY(-100%);
+          &:focus ~ label,
+          &:valid ~ label {
+            top: 7px;
+            opacity: 1;
+            color: $color-primary;
+            background: rgb(255, 255, 255);
+            background: -moz-linear-gradient(
+              0deg,
+              rgba(255, 255, 255, 1) 30%,
+              rgba(230, 239, 239, 1) 70%
+            );
+            background: -webkit-linear-gradient(
+              0deg,
+              rgba(255, 255, 255, 1) 30%,
+              rgba(230, 239, 239, 1) 70%
+            );
+            background: linear-gradient(
+              0deg,
+              rgba(255, 255, 255, 1) 30%,
+              rgba(230, 239, 239, 1) 70%
+            );
+            text-align: center;
+            transform: translateY(-100%);
+          }
         }
       }
 
@@ -68,17 +77,25 @@
       .svgPassword {
         position: absolute;
         top: 15px;
-        right: 15px;
+        right: 30px;
         cursor: pointer;
       }
     }
 
     .btnGroup {
       width: 100%;
+      @include flex-dir-ai-jc-gap(column, center, center, 1rem);
 
       button {
-        @include primary-button();
         cursor: pointer;
+
+        &.primaryBtn {
+          @include primary-button();
+        }
+
+        &.secondaryBtn {
+          @include secondary-button();
+        }
       }
 
       button:hover {

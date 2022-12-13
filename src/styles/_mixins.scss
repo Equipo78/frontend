@@ -12,9 +12,9 @@
   border: 2px solid rgba(203, 203, 203, 1);
   border-radius: 8px;
   width: 100%;
-  max-width: 330px;
+  max-width: 350px;
   height: 48px;
-  padding: 1rem;
+  // padding: 1rem;
 }
 
 @mixin flex-dir-ai-jc-gap($dir: row, $ai: initial, $jc: initial, $gap: 0) {
@@ -32,7 +32,7 @@
 
 @mixin primary-button {
   width: 100%;
-  max-width: 330px;
+  max-width: 350px;
   height: 50px;
   border-radius: 8px;
   background-color: variables.$bg-secondary;
@@ -41,7 +41,7 @@
 
 @mixin secondary-button {
   width: 100%;
-  max-width: 330px;
+  max-width: 350px;
   height: 50px;
   border-radius: 8px;
   background-color: variables.$bg-primary;
@@ -71,5 +71,4 @@
   justify-content: flex-start;
   gap: $gap;
   padding: $padding;
-  margin: $margin;
 }
