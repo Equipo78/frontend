@@ -1,11 +1,14 @@
-import React, { FormEventHandler, useState } from 'react';
-import { Link } from 'react-router-dom';
-import * as z from 'zod';
+import React, { FormEventHandler, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { useDispatch } from 'react-redux';
 
-import username from '../../assets/misc-icons/username.svg';
-import padlock from '../../assets/misc-icons/padlock.svg';
-import eyeShow from '../../assets/misc-icons/eye-show.svg';
-import eyeHide from '../../assets/misc-icons/eye-hide.svg';
+import username from '../../../assets/misc-icons/username.svg';
+import padlock from '../../../assets/misc-icons/padlock.svg';
+import eyeShow from '../../../assets/misc-icons/eye-show.svg';
+import eyeHide from '../../../assets/misc-icons/eye-hide.svg';
+import { useLoginMutation } from '../authApiSlice';
+import { setCredentials } from '../authSlice';
 
 import styles from './styles.module.scss';
 
@@ -14,54 +17,34 @@ import styles from './styles.module.scss';
 // add LINKS
 // add NAVIGATE to
 // add Login as Visitor
-// change Button hover
 
-const SchemaLogin = z
+const LoginSchema = z
   .object({
-    username: z
-      .string({
-        required_error: 'Username is required',
-      })
-      .min(3, { message: 'Username must be at least 3 characters long' })
-      .max(30),
-    password: z
-      .string({
-        required_error: 'Password is required',
-      })
-      .min(8, { message: 'Password must be at least 8 characters long' })
-      .max(30),
+    email: z.string().min(1, { message: 'Usuario es obligatorio' }),
+    password: z.string().min(1, { message: 'Clave es obligatoria' }),
   })
   .strict();
 
-const Errors = (obj: any) => {
-  if (!obj) return null;
-
-  return <p className="error">{obj.errors[0]}</p>;
-};
-
-type LoginType = z.infer<typeof SchemaLogin>;
+type LoginType = z.infer<typeof LoginSchema>;
 
 const initialValue = {
-  username: '',
+  email: '',
   password: '',
 };
 
 const guestValue = {
-  username: 'guest',
+  email: 'guest',
   password: 'guest123',
 };
 
 const LoginCard = (): JSX.Element => {
   const [isShowing, setIsShowing] = useState(true);
   const [inputValue, setInputValue] = useState<LoginType>(initialValue);
-  const [error, setError]: [string, (error: string) => void] = useState('');
+  const [errorMessage, setErrorMessage]: [string, (errorMessage: string) => void] = useState('');
 
-  const result = SchemaLogin.safeParse(inputValue);
-  const errors = !result.success ? result.error.flatten().fieldErrors : {};
-
-  console.log(result);
-  console.log(errors);
-  console.log(errors.username ? errors.username[0] : null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
 
   const toggleShow = () => {
     setIsShowing((prev) => !prev);
@@ -73,27 +56,43 @@ const LoginCard = (): JSX.Element => {
     setInputValue((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleClickSubmit: FormEventHandler = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleClickSubmit: FormEventHandler = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     event.preventDefault();
 
-    console.log('Before submit', inputValue);
-    let formData = new FormData();
+    const loginSchemaSuccess = LoginSchema.safeParse(inputValue).success;
+    const { email, password } = inputValue;
 
-    for (let value in inputValue) {
-      if ((inputValue as { [key: string]: string })[value]) {
-        formData.append(value, (inputValue as { [key: string]: string })[value] as unknown as Blob);
-      }
+    if (!loginSchemaSuccess) {
+      setErrorMessage('Email y clave son requeridos');
+    } else {
+      console.log('Good');
     }
-    const data = Object.fromEntries(formData);
+
+    console.log('Before submit', inputValue);
 
     try {
-      const validatedForm = SchemaLogin.parse(data);
+      const userData = await login({ email, password }).unwrap();
 
-      console.log('Try validatedForm', validatedForm);
-    } catch (error) {
-      console.log(error);
+      console.log('Unwrap:', userData);
+
+      dispatch(setCredentials({ ...userData, email }));
+      setInputValue(initialValue);
+      navigate('/');
+    } catch (err) {
+      // err.status vs err.originalStatus
+      if (!err) {
+        // isLoading: true until timeout occurs
+        setErrorMessage('No Server Response');
+      } else if (err === 400) {
+        setErrorMessage('Missing Username or Password');
+      } else if (err === 401) {
+        setErrorMessage('Unauthorized');
+      } else {
+        setErrorMessage('Login Failed');
+      }
     }
-    console.log('Submit');
   };
 
   const handleGuestSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -110,15 +109,15 @@ const LoginCard = (): JSX.Element => {
       </div>
       <form onSubmit={handleClickSubmit}>
         <div className={styles.inputGroup}>
-          <input id="username" name="username" type="text" onChange={handleInputValue} />
+          <input id="email" name="email" placeholder=" " type="text" onChange={handleInputValue} />
           <img alt="username" className={styles.svgInput} src={username} />
-          <label htmlFor="username">Usuario</label>
-          <Errors errors={errors?.username} />
+          <label htmlFor="username">Email</label>
         </div>
         <div className={styles.inputGroup}>
           <input
             id="password"
             name="password"
+            placeholder=" "
             type={isShowing ? 'password' : 'text'}
             onChange={handleInputValue}
           />
@@ -129,9 +128,9 @@ const LoginCard = (): JSX.Element => {
           ) : (
             <img alt="hide" className={styles.svgPassword} src={eyeHide} onClick={toggleShow} />
           )}
-          <Errors errors={errors?.password} />
         </div>
         <div className={styles.btnGroup}>
+          <p className="error">{errorMessage}</p>
           <button className={styles.primaryBtn} type="submit">
             INICIAR SESIÓN
           </button>
