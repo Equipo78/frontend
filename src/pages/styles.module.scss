@@ -1,0 +1,24 @@
+@import "../styles/mixins";
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.4fr 1.6fr 0.2fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "Header Header"
+    "ContentLeft ContentRight"
+    "Footer Footer";
+}
+
+.boxLeft {
+  grid-area: ContentLeft;
+  @include flex-dir-ai-jc-gap(column, center, end);
+  margin: 1rem;
+}
+
+.boxRight {
+  grid-area: ContentRight;
+  @include flex-dir-ai-jc-gap(column, center, end);
+  margin: 1rem;
+}

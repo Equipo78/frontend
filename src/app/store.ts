@@ -1,13 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import authReducer from '../features/login/authSlice';
+
 import { apiSlice } from './api/apiSlice';
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
     [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authReducer,
   },
-  // Adding the api middleware enables caching, invalidation, polling,
-  // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: true,
 });
