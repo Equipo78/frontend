@@ -1,0 +1,94 @@
+@import "../../styles/mixins";
+@import '../../styles/variables';
+
+//  BALANCE CARD
+.containerBalance {
+  @include card(9.5rem, 2rem, 1rem, 0);
+  position: relative;
+  width: 100%;
+
+  .vector {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+//  MENU CARD
+.containerMenu {
+  @include card(23.5rem, 2rem, 1rem, 0);
+  width: 100%;
+  margin-top: 3rem;
+  .options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    place-items: center;
+    height: 100%;
+    width: 100%;
+    li {
+      a {
+        @include flex-dir-ai-jc-gap(column, center, center);
+        p {
+          margin-top: 0.5rem;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+//  MOVEMENTS CARD
+.containerMov {
+  @include card(36rem, 2rem, 2rem 3rem, 0);
+  @include flex-dir-ai-jc-gap(column, flex-start, space-between);
+  // align-items: flex-start;
+  width: 100%;
+
+  h3 {
+    font-size: 1.8rem;
+  }
+
+  button{
+    cursor: pointer;
+    align-self: flex-end;
+    color: $color-tertiary;
+  }
+
+  .boxList {
+    width: 100%;
+    height: 100%;
+    max-height: 26rem;
+    overflow-y: scroll;
+
+    li {
+      @include flex-dir-ai-jc-gap(row, center, space-between);
+      width: 100%;
+      margin-bottom: 1rem;
+      height: 4rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .detail {
+        @include flex-dir-ai-jc-gap(row, center, center);
+        height: 100%;
+
+        h4 {
+          font-size: 1.1rem;
+          margin-left: 1rem;
+        }
+      }
+
+      .content {
+        @include flex-dir-ai-jc-gap(column, end, space-around);
+        height: 100%;
+
+        p {
+          font-weight: bold;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+}

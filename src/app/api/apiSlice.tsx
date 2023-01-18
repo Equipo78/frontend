@@ -19,7 +19,7 @@ interface CustomError {
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3000',
-  credentials: 'include',
+  // credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     // const { state } = getState() as { state: { auth: { token: string | null } } };
     const token = (getState() as RootState).auth.token;
@@ -32,33 +32,33 @@ const baseQuery = fetchBaseQuery({
   },
 }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>;
 
-const baseQueryWithReAuth = async (
-  args: string | FetchArgs,
-  api: BaseQueryApi,
-  extraOptions: {},
-) => {
-  let result = await baseQuery(args, api, extraOptions);
+// const baseQueryWithReAuth = async (
+//   args: string | FetchArgs,
+//   api: BaseQueryApi,
+//   extraOptions: {},
+// ) => {
+//   let result = await baseQuery(args, api, extraOptions);
 
-  // originalStatus vs status
-  if (result?.error?.status === 403) {
-    console.log('Sending refresh token');
+//   // originalStatus vs status
+//   if (result?.error?.status === 403) {
+//     console.log('Sending refresh token');
 
-    const refreshResult = await baseQuery('/refresh', api, extraOptions);
+//     const refreshResult = await baseQuery('/refresh', api, extraOptions);
 
-    console.log(refreshResult);
-    if (refreshResult?.data) {
-      const user = api.getState().auth.user;
+//     console.log(refreshResult);
+//     if (refreshResult?.data) {
+//       const user: string = api.getState().auth.user;
 
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
+//       api.dispatch(setCredentials({ ...refreshResult.data, user }));
 
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      api.dispatch(logOut());
-    }
-  }
+//       result = await baseQuery(args, api, extraOptions);
+//     } else {
+//       api.dispatch(logOut());
+//     }
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 // export const apiSlice = createApi({
 //   reducerPath: 'api',
@@ -73,6 +73,6 @@ const baseQueryWithReAuth = async (
 // });
 
 export const apiSlice = createApi({
-  baseQuery: baseQueryWithReAuth,
+  baseQuery: baseQuery,
   endpoints: (builder) => ({}),
 });
