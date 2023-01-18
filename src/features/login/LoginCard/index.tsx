@@ -77,7 +77,7 @@ const LoginCard = (): JSX.Element => {
 
       console.log('Unwrap:', userData);
 
-      dispatch(setCredentials({ ...userData, email }));
+      dispatch(setCredentials({ ...userData }));
       setInputValue(initialValue);
       navigate('/');
     } catch (err) {
