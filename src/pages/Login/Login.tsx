@@ -1,17 +1,18 @@
-import LoginCard from '../components/LoginCard';
-import Header from '../components/Header';
-import TopLeft1 from '../assets/login-bg/TopLeft1.svg';
-import TopLeft2 from '../assets/login-bg/TopLeft2.svg';
-import TopRight1 from '../assets/login-bg/TopRight1.svg';
-import TopRight2 from '../assets/login-bg/TopRight2.svg';
-import Bottom1 from '../assets/login-bg/Bottom1.svg';
-import Bottom2 from '../assets/login-bg/Bottom2.svg';
-import CardPayment from '../assets/drawings/CardPayment.svg';
-import Welcome from '../assets/drawings/Welcome.svg';
+import Header from '../../components/Header/index';
+import TopLeft1 from '../../assets/login-bg/TopLeft1.svg';
+import TopLeft2 from '../../assets/login-bg/TopLeft2.svg';
+import TopRight1 from '../../assets/login-bg/TopRight1.svg';
+import TopRight2 from '../../assets/login-bg/TopRight2.svg';
+import Bottom1 from '../../assets/login-bg/Bottom1.svg';
+import Bottom2 from '../../assets/login-bg/Bottom2.svg';
+import CardPayment from '../../assets/drawings/CardPayment.svg';
+import Welcome from '../../assets/drawings/Welcome.svg';
+import LoginCard from '../../features/login/LoginCard/index';
 
 import styles from './Login.module.scss';
 
-// switch content to display:flex row?
+// update .content to display:flex row?
+// update layout
 
 export const Login = () => {
   return (
