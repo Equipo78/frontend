@@ -16,10 +16,10 @@ const Navbar = () => {
       </ul>
 
       <section>
-        {navButtons.map(({ name, img }) => (
+        {navButtons.map(({ name, to, img }) => (
           <article key={name} className={styles.navItem}>
             <img alt={name} src={img} />
-            <p>{name}</p>
+            <Link to={to}>{name}</Link>
           </article>
         ))}
       </section>

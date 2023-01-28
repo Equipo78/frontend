@@ -16,6 +16,7 @@ interface NavRoutes {
 
 interface NavButtons {
   name: string;
+  to: string;
   img: string;
 }
 
@@ -60,10 +61,12 @@ export const navRoutes: NavRoutes[] = [
 export const navButtons: NavButtons[] = [
   {
     name: 'Centro de ayuda',
+    to: '/',
     img: help,
   },
   {
     name: 'Cerrar sesion',
+    to: '/login',
     img: logout,
   },
 ];
