@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useState } from 'react';
+import React, { FormEventHandler, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useDispatch } from 'react-redux';
@@ -37,6 +37,10 @@ const LoginCard = (): JSX.Element => {
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
+
   const toggleShow = () => {
     setIsShowing((prev) => !prev);
   };
@@ -65,13 +69,10 @@ const LoginCard = (): JSX.Element => {
       const userData = await login({ email, password }).unwrap();
 
       dispatch(setCredentials({ ...userData }));
+      setIsDisabled(true);
       setInputValue(initialValue);
       setErrorMessage('Login successful');
-      localStorage.clear();
-      localStorage.setItem('token', JSON.stringify(userData));
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      navigate('/');
     } catch (error: any) {
       if (!loginSchemaSuccess) {
         setErrorMessage('Email and password are mandatory');
@@ -79,6 +80,8 @@ const LoginCard = (): JSX.Element => {
         setErrorMessage('Email and/or password are incorrect');
       } else if (error.status === 500) {
         setErrorMessage(error.data.message);
+      } else {
+        setErrorMessage('Login Failed');
       }
     }
   };
