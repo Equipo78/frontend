@@ -12,12 +12,6 @@ import { setCredentials } from '../authSlice';
 
 import styles from './styles.module.scss';
 
-// add POST request
-// add ZOD schema validation
-// add LINKS
-// add NAVIGATE to
-// add Login as Visitor
-
 const LoginSchema = z
   .object({
     email: z.string().min(1, { message: 'Usuario es obligatorio' }),
@@ -32,19 +26,20 @@ const initialValue = {
   password: '',
 };
 
-const guestValue = {
-  email: 'guest',
-  password: 'guest123',
-};
-
 const LoginCard = (): JSX.Element => {
   const [isShowing, setIsShowing] = useState(true);
   const [inputValue, setInputValue] = useState<LoginType>(initialValue);
   const [errorMessage, setErrorMessage]: [string, (errorMessage: string) => void] = useState('');
+  const [guest, setGuest] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
 
   const toggleShow = () => {
     setIsShowing((prev) => !prev);
@@ -52,6 +47,12 @@ const LoginCard = (): JSX.Element => {
 
   const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.currentTarget;
+
+    if (value) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
 
     setInputValue((prev) => ({ ...prev, [name]: value }));
   };
@@ -64,42 +65,37 @@ const LoginCard = (): JSX.Element => {
     const loginSchemaSuccess = LoginSchema.safeParse(inputValue).success;
     const { email, password } = inputValue;
 
-    if (!loginSchemaSuccess) {
-      setErrorMessage('Email y clave son requeridos');
-    } else {
-      console.log('Good');
-    }
-
-    console.log('Before submit', inputValue);
-
     try {
       const userData = await login({ email, password }).unwrap();
 
-      console.log('Unwrap:', userData);
-
       dispatch(setCredentials({ ...userData }));
+      setIsDisabled(true);
       setInputValue(initialValue);
+      setErrorMessage('Login successful');
       navigate('/');
-    } catch (err) {
-      // err.status vs err.originalStatus
-      if (!err) {
-        // isLoading: true until timeout occurs
-        setErrorMessage('No Server Response');
-      } else if (err === 400) {
-        setErrorMessage('Missing Username or Password');
-      } else if (err === 401) {
-        setErrorMessage('Unauthorized');
+    } catch (error: any) {
+      if (!loginSchemaSuccess) {
+        setErrorMessage('Email and password are mandatory');
+      } else if (error.status === 400 || error.status === 401) {
+        setErrorMessage('Email and/or password are incorrect');
+      } else if (error.status === 500) {
+        setErrorMessage(error.data.message);
       } else {
         setErrorMessage('Login Failed');
       }
     }
   };
 
-  const handleGuestSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleGuestSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
+    const guestEmail = 'guest2@gmail.com';
+    const guestPassword = 'Guest123!@#';
+    const guestValue = { email: guestEmail, password: guestPassword };
+
+    setGuest(true);
     setInputValue(guestValue);
-    handleClickSubmit(event);
-    console.log(inputValue);
+    setIsDisabled(false);
+    setGuest(false);
   };
 
   return (
@@ -109,7 +105,14 @@ const LoginCard = (): JSX.Element => {
       </div>
       <form onSubmit={handleClickSubmit}>
         <div className={styles.inputGroup}>
-          <input id="email" name="email" placeholder=" " type="text" onChange={handleInputValue} />
+          <input
+            id="email"
+            name="email"
+            placeholder=" "
+            type="text"
+            value={guest ? 'guest2@gmail.com' : inputValue.email}
+            onChange={handleInputValue}
+          />
           <img alt="username" className={styles.svgInput} src={username} />
           <label htmlFor="username">Email</label>
         </div>
@@ -119,6 +122,7 @@ const LoginCard = (): JSX.Element => {
             name="password"
             placeholder=" "
             type={isShowing ? 'password' : 'text'}
+            value={guest ? 'Guest123!@#' : inputValue.password}
             onChange={handleInputValue}
           />
           <img alt="password" className={styles.svgInput} src={padlock} />
@@ -130,11 +134,11 @@ const LoginCard = (): JSX.Element => {
           )}
         </div>
         <div className={styles.btnGroup}>
-          <p className="error">{errorMessage}</p>
-          <button className={styles.primaryBtn} type="submit">
+          <p className="error">{!isLoading ? errorMessage : 'Loading...'}</p>
+          <button className={styles.primaryBtn} disabled={isDisabled} type="submit">
             INICIAR SESIÓN
           </button>
-          <button className={styles.secondaryBtn} onClick={() => handleGuestSubmit}>
+          <button className={styles.secondaryBtn} onClick={handleGuestSubmit}>
             Guest
           </button>
         </div>
