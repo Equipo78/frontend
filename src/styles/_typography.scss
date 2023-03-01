@@ -48,14 +48,24 @@ p,
 }
 
 input,
-.placeholder,
+button,
 .subtitle-b,
-button {
+.placeholder,
+.error {
   font-size: 0.875rem;
 }
 
 .placeholder {
   color: variables.$color-placeholder;
+}
+
+.error {
+  // line-height: 2rem;
+  color: variables.$color-error;
+}
+
+.success {
+  color: variables.$color-success;
 }
 
 a {

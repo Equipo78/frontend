@@ -1,0 +1,60 @@
+@import '../../styles/mixins';
+
+.container {
+  position: relative;
+  height: 100vh;
+
+  .topLeftSvg {
+    position: absolute;
+    top: -200px;
+    left: 0;
+    z-index: -99999;
+  }
+
+  .topRightSvg {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    z-index: -99999;
+  }
+
+  .bottomSvg {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    z-index: -99999;
+  }
+}
+
+.content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'title title title loginContainer';
+  gap: 2rem;
+  padding-top: 3rem;
+  padding-inline: 3rem;
+
+  .title {
+    grid-area: title;
+    @include flex-dir-ai-jc-gap(column, center, space-around, 0);
+
+    .drawingContainers {
+      @include flex-dir-ai-jc-gap(row, center, space-around, 3rem);
+      width: 100%;
+
+      .drawings {
+        width: 330px;
+        height: 430px;
+      }
+    }
+  }
+
+  .loginContainer {
+    grid-area: loginContainer;
+    @include flex-dir-ai-jc-gap(column, center, center, 2rem);
+    width: clamp(200px, 450px, 900px);
+  }
+}

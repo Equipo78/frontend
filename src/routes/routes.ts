@@ -1,25 +1,60 @@
 import { lazy, LazyExoticComponent } from 'react';
 
-import { Login } from '../pages';
+import { Login, Register } from '../pages';
 
 interface Route {
-  to: string;
   path: string;
   Component: LazyExoticComponent<() => JSX.Element> | (() => JSX.Element);
   name: string;
 }
 
-export const routes: Route[] = [
+export const authRoutes: Route[] = [
   {
-    to: '/login',
-    path: '/login',
     Component: Login,
     name: 'Login',
+    path: '/login',
   },
   {
-    to: '/',
-    path: '/',
+    Component: Register,
+    name: 'Register',
+    path: '/register',
+  },
+];
+
+export const commonRoutes: Route[] = [
+  {
     Component: lazy(() => import('../pages/Home')),
-    name: 'Home',
+    name: 'Inicio',
+    path: '/',
+  },
+  {
+    Component: lazy(() => import('../pages/Balances')),
+    name: 'Saldos',
+    path: '/balances',
+  },
+  {
+    Component: lazy(() => import('../pages/Cards')),
+    name: 'Tarjetas',
+    path: '/cards',
+  },
+  {
+    Component: lazy(() => import('../pages/Receipts')),
+    name: 'Comprobantes',
+    path: '/receipts',
+  },
+  {
+    Component: lazy(() => import('../pages/Transfers')),
+    name: 'Transferencias',
+    path: '/transfers',
+  },
+  {
+    Component: lazy(() => import('../pages/Movements')),
+    name: 'Movimientos',
+    path: '/movements',
+  },
+  {
+    Component: lazy(() => import('../pages/Contacts')),
+    name: 'Contactos',
+    path: '/contacts',
   },
 ];
